@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Eye, EyeOff } from "lucide-react";
+import { Check } from "lucide-react";
 
 const ANTHROPIC_MODELS = [
   "claude-opus-4-5",
@@ -20,8 +20,6 @@ interface AiSettings {
   provider: string;
   anthropicModel: string;
   openaiModel: string;
-  anthropicApiKey: string;
-  openaiApiKey: string;
 }
 
 interface AppSettings {
@@ -34,12 +32,8 @@ export default function SettingsPage() {
     provider: "anthropic",
     anthropicModel: "claude-opus-4-5",
     openaiModel: "gpt-4o",
-    anthropicApiKey: "",
-    openaiApiKey: "",
   });
   const [appSettings, setAppSettings] = useState<AppSettings>({ appName: "Sales Portal", logoText: "SP" });
-  const [showAnthropicKey, setShowAnthropicKey] = useState(false);
-  const [showOpenaiKey, setShowOpenaiKey] = useState(false);
   const [saved, setSaved] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -125,25 +119,6 @@ export default function SettingsPage() {
             <div className="space-y-3 pt-2 border-t border-border">
               <p className="text-xs text-muted-foreground uppercase tracking-wide font-normal">Anthropic</p>
               <div className="space-y-1">
-                <label className="label">API Key</label>
-                <div className="relative">
-                  <input
-                    type={showAnthropicKey ? "text" : "password"}
-                    className="input-field pr-9"
-                    placeholder="sk-ant-..."
-                    value={aiSettings.anthropicApiKey}
-                    onChange={e => setAiSettings(s => ({...s, anthropicApiKey: e.target.value}))}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowAnthropicKey(v => !v)}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  >
-                    {showAnthropicKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                  </button>
-                </div>
-              </div>
-              <div className="space-y-1">
                 <label className="label">Model</label>
                 <select
                   className="input-field"
@@ -158,25 +133,6 @@ export default function SettingsPage() {
             {/* OpenAI */}
             <div className="space-y-3 pt-2 border-t border-border">
               <p className="text-xs text-muted-foreground uppercase tracking-wide font-normal">OpenAI</p>
-              <div className="space-y-1">
-                <label className="label">API Key</label>
-                <div className="relative">
-                  <input
-                    type={showOpenaiKey ? "text" : "password"}
-                    className="input-field pr-9"
-                    placeholder="sk-..."
-                    value={aiSettings.openaiApiKey}
-                    onChange={e => setAiSettings(s => ({...s, openaiApiKey: e.target.value}))}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowOpenaiKey(v => !v)}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  >
-                    {showOpenaiKey ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                  </button>
-                </div>
-              </div>
               <div className="space-y-1">
                 <label className="label">Model</label>
                 <select
