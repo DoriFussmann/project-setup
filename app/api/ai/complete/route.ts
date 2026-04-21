@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     let result = "";
 
     if (aiSettings.provider === "anthropic") {
-      if (!aiSettings.anthropicApiKey) {
+      if (!process.env.ANTHROPIC_API_KEY) {
         return NextResponse.json(
           { error: "Anthropic API key not configured" },
           { status: 400 }
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": aiSettings.anthropicApiKey,
+          "x-api-key": process.env.ANTHROPIC_API_KEY,
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
       }
       result = data.content[0]?.text || "";
     } else if (aiSettings.provider === "openai") {
-      if (!aiSettings.openaiApiKey) {
+      if (!process.env.OPENAI_API_KEY) {
         return NextResponse.json(
           { error: "OpenAI API key not configured" },
           { status: 400 }
@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${aiSettings.openaiApiKey}`,
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
           model: aiSettings.openaiModel,

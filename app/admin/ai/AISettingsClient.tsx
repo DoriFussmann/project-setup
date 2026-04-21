@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Eye, EyeOff } from "lucide-react";
+import { Check } from "lucide-react";
 
 const ANTHROPIC_MODELS = [
   { value: "claude-opus-4-5", label: "Claude Opus 4.5 (Most capable)" },
@@ -19,16 +19,12 @@ interface AISettings {
   provider: "anthropic" | "openai";
   anthropicModel: string;
   openaiModel: string;
-  anthropicApiKey: string;
-  openaiApiKey: string;
 }
 
 export default function AISettingsClient({ initialSettings }: { initialSettings: AISettings }) {
   const [settings, setSettings] = useState(initialSettings);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [showAnthropicKey, setShowAnthropicKey] = useState(false);
-  const [showOpenAIKey, setShowOpenAIKey] = useState(false);
 
   async function handleSave() {
     setSaving(true);
@@ -65,7 +61,7 @@ export default function AISettingsClient({ initialSettings }: { initialSettings:
       <div className="mb-6">
         <h1 className="text-base text-foreground">AI Settings</h1>
         <p className="text-sm text-muted-foreground mt-0.5">
-          Configure the AI provider, model, and API keys
+          Configure the AI provider and model
         </p>
       </div>
 
@@ -105,65 +101,6 @@ export default function AISettingsClient({ initialSettings }: { initialSettings:
             ))}
           </select>
         </div>
-
-        {/* Anthropic API Key */}
-        <div className="space-y-1.5">
-          <label className="label">Anthropic API Key</label>
-          <div className="relative">
-            <input
-              className="input-field pr-10"
-              type={showAnthropicKey ? "text" : "password"}
-              value={settings.anthropicApiKey}
-              onChange={(e) =>
-                setSettings((s) => ({ ...s, anthropicApiKey: e.target.value }))
-              }
-              placeholder="sk-ant-..."
-            />
-            <button
-              type="button"
-              onClick={() => setShowAnthropicKey((v) => !v)}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              {showAnthropicKey ? (
-                <EyeOff className="w-3.5 h-3.5" />
-              ) : (
-                <Eye className="w-3.5 h-3.5" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* OpenAI API Key */}
-        <div className="space-y-1.5">
-          <label className="label">OpenAI API Key</label>
-          <div className="relative">
-            <input
-              className="input-field pr-10"
-              type={showOpenAIKey ? "text" : "password"}
-              value={settings.openaiApiKey}
-              onChange={(e) =>
-                setSettings((s) => ({ ...s, openaiApiKey: e.target.value }))
-              }
-              placeholder="sk-..."
-            />
-            <button
-              type="button"
-              onClick={() => setShowOpenAIKey((v) => !v)}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              {showOpenAIKey ? (
-                <EyeOff className="w-3.5 h-3.5" />
-              ) : (
-                <Eye className="w-3.5 h-3.5" />
-              )}
-            </button>
-          </div>
-        </div>
-
-        <p className="text-xs text-muted-foreground">
-          API keys are stored in <code className="bg-secondary px-1 rounded">data/config.json</code> and
-          never exposed to non-admin users.
-        </p>
 
         <button onClick={handleSave} disabled={saving} className="btn-primary text-xs">
           {saved ? (
