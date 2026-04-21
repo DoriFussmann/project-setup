@@ -1,0 +1,83 @@
+{
+  "aiSettings": {
+    "provider": "anthropic",
+    "anthropicModel": "claude-opus-4-5",
+    "openaiModel": "gpt-4o",
+    "anthropicApiKey": "",
+    "openaiApiKey": ""
+  },
+  "buttons": [
+    {
+      "id": "button-1",
+      "label": "Prospect Brief",
+      "icon": "FileText",
+      "description": "Generate a prospect brief",
+      "promptId": "prompt-1",
+      "order": 1,
+      "active": true
+    },
+    {
+      "id": "button-2",
+      "label": "Objection Handler",
+      "icon": "MessageSquare",
+      "description": "Handle sales objections",
+      "promptId": "prompt-2",
+      "order": 2,
+      "active": true
+    },
+    {
+      "id": "button-3",
+      "label": "Follow-up Draft",
+      "icon": "Mail",
+      "description": "Draft a follow-up message",
+      "promptId": "prompt-3",
+      "order": 3,
+      "active": true
+    },
+    {
+      "id": "button-1776813950765",
+      "label": "Fourth Button",
+      "icon": "Target",
+      "description": "This is a test of a fourth button",
+      "promptId": "prompt-2",
+      "active": true,
+      "order": 4
+    }
+  ],
+  "prompts": [
+    {
+      "id": "prompt-1",
+      "name": "Prospect Brief",
+      "description": "Generates a structured prospect brief",
+      "systemPrompt": "You are a sales intelligence assistant. When given a company or prospect name, generate a concise brief including: company overview, likely pain points, recommended approach, and key talking points. Be specific and actionable. Format your response clearly with sections.",
+      "userPromptTemplate": "Generate a prospect brief for: {{input}}",
+      "inputPlaceholder": "Enter company or prospect name...",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "prompt-2",
+      "name": "Objection Handler",
+      "description": "Generates responses to sales objections",
+      "systemPrompt": "You are an expert sales coach. When given a sales objection, provide: a brief acknowledgment strategy, 2-3 reframe approaches, a suggested response script, and follow-up questions to keep the conversation moving. Keep it practical and conversational.",
+      "userPromptTemplate": "Help me handle this objection: {{input}}",
+      "inputPlaceholder": "Enter the objection you're facing...",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "prompt-3",
+      "name": "Follow-up Draft",
+      "description": "Drafts personalized follow-up messages",
+      "systemPrompt": "You are a sales communication specialist. When given context about a sales interaction, draft a professional, personalized follow-up email or message. Keep it concise, add value, include a clear next step, and avoid generic templates. Match the tone to the context provided.",
+      "userPromptTemplate": "Draft a follow-up based on this context: {{input}}",
+      "inputPlaceholder": "Describe the interaction to follow up on...",
+      "createdAt": "2024-01-01T00:00:00Z",
+      "updatedAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "appSettings": {
+    "appName": "Sales Portal",
+    "logoText": "SP"
+  }
+}

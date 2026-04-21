@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "id": "admin-001",
+      "email": "admin@yourdomain.com",
+      "password": "changeme123",
+      "name": "Admin",
+      "role": "admin",
+      "active": true,
+      "permissions": []
+    },
+    {
+      "id": "user-001",
+      "email": "salesperson@yourdomain.com",
+      "password": "sales123",
+      "name": "Sales Rep",
+      "role": "user",
+      "active": true,
+      "permissions": [
+        "button-1",
+        "button-2",
+        "button-3",
+        "button-1776813950765"
+      ]
+    }
+  ]
+}

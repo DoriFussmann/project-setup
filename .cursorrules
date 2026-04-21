@@ -1,0 +1,81 @@
+# Sales Portal — Cursor Rules
+
+## Project overview
+Next.js 14 App Router + Tailwind CSS + TypeScript sales portal.
+No database — all persistence is JSON files in /data/.
+Built for handoff to R&D; keep code clean and replaceable.
+
+## Architecture
+- /data/users.json — all users, passwords (plain text for now), permissions
+- /data/config.json — buttons, prompts, AI settings, app settings
+- /lib/data.ts — all file read/write (server-only)
+- /lib/session.ts — base64 cookie session (intentionally simple for handoff)
+- /middleware.ts — route protection
+- /app/api/ — all API routes (server-side only)
+- /app/login/ — public login page
+- /app/portal/ — salesperson view
+- /app/admin/ — admin-only section
+
+## Core rules
+
+### Never hardcode
+- No hardcoded prompts in components or API routes
+- No hardcoded button labels, IDs, or configs
+- No hardcoded API keys — always read from config.json via /api/config
+- All user-facing text that admins should control lives in config.json
+
+### Data persistence
+- All config changes go through PUT /api/config
+- All user changes go through /api/users or /api/users/[id]
+- Always read config fresh from API, never cache in a module-level variable
+- After any mutation, reload data from the API (not local state patch)
+
+### Auth & permissions
+- Session is a base64 cookie (sp_session) — simple and intentional
+- Never trust client-side role/permission checks for actual data
+- API routes must validate session server-side before every operation
+- Admin routes check role === "admin" on every request
+- Portal buttons are filtered by user.permissions array (button IDs)
+
+### Design system
+- Use only CSS classes defined in globals.css: btn-primary, btn-secondary, btn-ghost, btn-destructive, input-field, card, label
+- Color via Tailwind tokens only: bg-background, text-foreground, text-muted-foreground, border-border, etc.
+- Font weight 300 is default body, 400 for headings — never bold unless intentional
+- No arbitrary Tailwind values unless absolutely necessary
+- Spacing: px-4 py-2 for most elements, gap-2 or gap-3 for layouts
+
+### Component patterns
+- Portal: single page, left sidebar nav, main content area changes based on active button — no routing
+- Admin: each section is its own page under /admin/[section]
+- Forms: inline (no modal) — show/hide with state, not navigation
+- Loading states: small spinner (w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin)
+- Errors: text-xs text-destructive inline below the relevant field
+
+### TypeScript
+- Type all API responses
+- Prefer interfaces over types for objects
+- No any unless genuinely necessary
+
+### File mutations
+- When modifying a JSON config section (e.g. buttons), always fetch the full config first, spread it, replace only the changed section, then PUT the whole config back
+- Never partially update config — always write the complete object
+
+## What NOT to do
+- Do not add a database
+- Do not add NextAuth or any auth library
+- Do not add new npm packages without checking if something in the existing stack works
+- Do not add dark mode toggle UI (dark mode CSS is defined but not user-toggled for now)
+- Do not create separate CSS files — all styles go in globals.css or as Tailwind classes
+- Do not create new API routes for things already handled by /api/config (PUT the whole config)
+
+## Adding new features
+When adding a new portal button/tool:
+1. Add a prompt in admin → Prompts
+2. Add a button in admin → Buttons, link to the prompt
+3. Grant button ID to relevant users in admin → Users
+No code changes needed.
+
+When adding a new admin section:
+1. Create /app/admin/[section]/page.tsx
+2. Add nav item in /app/admin/layout.tsx navItems array
+3. Read/write via /api/config or new /api/[resource] route following existing patterns
